@@ -15,18 +15,16 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
-func _on_input_event(camera, event, position, normal, shape_idx):
+func _on_input_event(_camera, event, _position, _normal, _shape_idx):
 	if event is InputEventMouseButton:
-		#var floor_pos = Vector3(floor(position.x), 0.0, floor(position.z))
-		#vox.set_voxel(floor_pos, 1)
 		if event.pressed:
-			rect_corner = Vector3i(floor(position.x), 0.0, floor(position.z))
+			rect_corner = Vector3i(floori(_position.x), 0, floori(_position.z))
 		else:
-			var new_rect_corner = Vector3i(floor(position.x), 0.0, floor(position.z))
+			var new_rect_corner = Vector3i(floori(_position.x), 0, floori(_position.z))
 			vox.mode = VoxelTool.MODE_SET
 			vox.value = 1
 			vox.do_box(rect_corner, new_rect_corner)

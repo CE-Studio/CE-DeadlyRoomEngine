@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://col1urqkm7llr"]
+[gd_scene load_steps=14 format=3 uid="uid://col1urqkm7llr"]
 
 [ext_resource type="Script" path="res://Scripts/MousePlane.gd" id="1_ygvdh"]
+[ext_resource type="Script" path="res://Scripts/TileMenuHandler.gd" id="2_njl3o"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dnl57"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -52,10 +53,13 @@ shadow_enabled = true
 stream = SubResource("VoxelStreamRegionFiles_yp1cw")
 mesher = SubResource("VoxelMesherBlocky_nkha8")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.919362, 0.393412, 0, -0.393412, 0.919362, 0, 5.48788, 12.7424)
+[node name="CamGyro" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.600755, 0.799433, 0, -0.799433, 0.600755, 0, 0, 0)
 
-[node name="VoxelViewer" type="VoxelViewer" parent="Camera3D"]
+[node name="Camera3D" type="Camera3D" parent="CamGyro"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25)
+
+[node name="VoxelViewer" type="VoxelViewer" parent="CamGyro/Camera3D"]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 input_capture_on_drag = true
@@ -63,5 +67,32 @@ script = ExtResource("1_ygvdh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("WorldBoundaryShape3D_3y33p")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -333.0
+offset_right = 175.0
+offset_bottom = 341.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 27.0
+offset_right = 162.0
+offset_bottom = 646.0
+script = ExtResource("2_njl3o")
 
 [connection signal="input_event" from="StaticBody3D" to="StaticBody3D" method="_on_input_event"]
