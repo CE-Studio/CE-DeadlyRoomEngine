@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://col1urqkm7llr"]
+[gd_scene load_steps=26 format=3 uid="uid://col1urqkm7llr"]
 
 [ext_resource type="Script" path="res://Scripts/MousePlane.gd" id="1_ygvdh"]
 [ext_resource type="Script" path="res://Scripts/TileMenuHandler.gd" id="2_njl3o"]
@@ -24,21 +24,68 @@ glow_enabled = true
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 0.5, 1)])
 height = 0.5
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a86gp"]
+albedo_color = Color(1, 0, 1, 1)
+
 [sub_resource type="VoxelBlockyModelCube" id="VoxelBlockyModelCube_b323d"]
 color = Color(0.788235, 0, 1, 1)
+material_override_0 = SubResource("StandardMaterial3D_a86gp")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ayyjh"]
+albedo_color = Color(0.494118, 0, 1, 1)
+
+[sub_resource type="VoxelBlockyModelCube" id="VoxelBlockyModelCube_mqtsl"]
+color = Color(0.490196, 0, 1, 1)
+material_override_0 = SubResource("StandardMaterial3D_ayyjh")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_suofx"]
+albedo_color = Color(0.580392, 0, 0, 1)
 
 [sub_resource type="VoxelBlockyModelCube" id="VoxelBlockyModelCube_piipp"]
 color = Color(0.592157, 0, 0, 1)
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 0.01, 1)])
+material_override_0 = SubResource("StandardMaterial3D_suofx")
 height = 0.01
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dokhu"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="VoxelBlockyModelCube" id="VoxelBlockyModelCube_pmy0c"]
+color = Color(1, 0, 0, 1)
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 0.5, 1)])
+material_override_0 = SubResource("StandardMaterial3D_dokhu")
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1g3ta"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="VoxelBlockyModelCube" id="VoxelBlockyModelCube_grgsp"]
+color = Color(1, 1, 0, 1)
+material_override_0 = SubResource("StandardMaterial3D_1g3ta")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6imn1"]
+albedo_color = Color(1, 0.588235, 0, 1)
+
+[sub_resource type="VoxelBlockyModelCube" id="VoxelBlockyModelCube_6i8p6"]
+color = Color(1, 0.615686, 0, 1)
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 0.5, 1)])
+material_override_0 = SubResource("StandardMaterial3D_6imn1")
+height = 0.5
+
 [sub_resource type="VoxelBlockyLibrary" id="VoxelBlockyLibrary_42mu8"]
-models = Array[VoxelBlockyModel]([SubResource("VoxelBlockyModelEmpty_eas7p"), SubResource("VoxelBlockyModelCube_u3irn"), SubResource("VoxelBlockyModelCube_b323d"), SubResource("VoxelBlockyModelCube_piipp")])
+models = Array[VoxelBlockyModel]([SubResource("VoxelBlockyModelEmpty_eas7p"), SubResource("VoxelBlockyModelCube_u3irn"), SubResource("VoxelBlockyModelCube_b323d"), SubResource("VoxelBlockyModelCube_mqtsl"), SubResource("VoxelBlockyModelCube_piipp"), SubResource("VoxelBlockyModelCube_pmy0c"), SubResource("VoxelBlockyModelCube_grgsp"), SubResource("VoxelBlockyModelCube_6i8p6")])
 
 [sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_nkha8"]
 library = SubResource("VoxelBlockyLibrary_42mu8")
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_3y33p"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dstcp"]
+size = Vector3(1, 1.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wb2og"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.0392157)
 
 [node name="Game" type="Node3D"]
 
@@ -54,7 +101,7 @@ stream = SubResource("VoxelStreamRegionFiles_yp1cw")
 mesher = SubResource("VoxelMesherBlocky_nkha8")
 
 [node name="CamGyro" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.600755, 0.799433, 0, -0.799433, 0.600755, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.720551, 0.693402, 0, -0.693402, 0.720551, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CamGyro"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25)
@@ -68,6 +115,10 @@ script = ExtResource("1_ygvdh")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("WorldBoundaryShape3D_3y33p")
 
+[node name="SelectionIndicator" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_dstcp")
+surface_material_override/0 = SubResource("StandardMaterial3D_wb2og")
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -75,6 +126,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Panel" type="Panel" parent="Control"]
 layout_mode = 1
